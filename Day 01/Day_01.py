@@ -32,7 +32,7 @@ def get_windowed_measures(path, window_size):
     return measures[0:len(measures) - (window_size - 1)]
 
 # part 1
-print(count_increments(get_simple_measures("./Day 01/01_input.txt")))
+print(count_increments(get_simple_measures("./Day 01/Day_01_input.txt")))
 
 # part 2
-print(count_increments(get_windowed_measures("./Day 01/01_input.txt", 3)))
+print(count_increments(get_windowed_measures("./Day 01/Day_01_input.txt", 3)))
