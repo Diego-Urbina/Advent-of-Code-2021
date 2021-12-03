@@ -1,9 +1,7 @@
 def get_final_coords_part1(commands):
     x = 0
     y = 0
-    for command in commands:
-        move = command[0]
-        units = int(command[1])
+    for move, units in commands:
         if move == "forward":
             x += units
         elif move == "down":
@@ -17,9 +15,7 @@ def get_final_coords_part2(commands):
     x = 0
     y = 0
     aim = 0
-    for command in commands:
-        move = command[0]
-        units = int(command[1])
+    for move, units in commands:
         if move == "forward":
             x += units
             y += aim * units
@@ -33,7 +29,8 @@ def get_final_coords_part2(commands):
 with open("./Day 02/Day_02_input.txt", "r") as file:
     commands = []
     for line in file:
-        commands.append(line.split(" "))
+        x, y = line.split(" ")
+        commands.append([x, int(y)])
 
 coords = get_final_coords_part1(commands)
 print(coords)
