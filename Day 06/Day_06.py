@@ -14,7 +14,7 @@ def puzzle(ages, days):
         fishes[6] += fishes_age_0
         fishes[8] = fishes_age_0
 
-    print("After ", days, " days, there are ", sum(fishes), " fishes")
+    print("After", days, "days, there are", sum(fishes), "fishes")
 
 puzzle(ages, 80)
 puzzle(ages, 256)
