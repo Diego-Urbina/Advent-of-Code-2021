@@ -1,0 +1,60 @@
+acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab | cdfeb fcadb cdfeb cdbaf
+
+1 = ab
+4 = eafb
+7 = dab
+8 = acedgfb
+2, 3, 5 = cdfbe, gcdfa, fbcad
+0, 6, 9 = cefabd, cdfgeb, cagedb
+
+
+           0
+        -------
+        |     |
+      1 |     | 2
+        |  3  |
+        -------
+        |     |
+      4 |     | 5
+        |  6  |
+        -------
+
+Algoritmo:
+1) encontrar que segmento en 7 NO está presente en 1
+	=> d	=> el segmento 0 es 'd'
+2) encontrar que segmentos en 4 NO están presentes en 1
+	=> ef	=> los segmentos 1,3 son e,f
+3) dado 1
+	=> ab	=> los segmentos 2,5 son a,b
+4) quitar todos los comunes en 0, 6, 9
+	=> cebd	=> quedan fa, fg, ag
+	=> lo único en común con los segmentos 1,3 del paso 2) es f, por tanto, el segmento 3 es f, el segmento 1 es 'e'
+	=> debido a esto, sabemos que los que incluyen f (fa y fg) son los numeros 6 y 9, nunca el 0
+		=> buscamos coincidencia con los segmentos de 1 (ab) y obtenemos la 'a'
+		=> de aqui deducimos que el segmento 2 es 'a' y el segmento 5 es 'b'
+	=> fa ya está resuelto. es el número 9
+	=> fg es el numero 6. como ya conozco la 'f', me queda la 'g' que por descarte es el segmento 4
+
+           d
+        -------
+        |     |
+      e |     | a
+        |  f  |
+        -------
+        |     |
+      g |     | b
+        |  6  |
+        -------
+
+5) solo queda el segmento 6, que por descarte es 'c'
+
+           d
+        -------
+        |     |
+      e |     | a
+        |  f  |
+        -------
+        |     |
+      g |     | b
+        |  c  |
+        -------
