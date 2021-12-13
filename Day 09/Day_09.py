@@ -47,7 +47,10 @@ def puzzle1():
 
     rows = len(heightmap)
     cols = len(heightmap[0])
-    low_points = [(row, col) for row in range(rows) for col in range(cols) if hor[row][col] == ver[row][col] == 1]
+    low_points = [(row, col) for row in range(rows)
+                    for col in range(cols)
+                    if hor[row][col] == ver[row][col] == 1]
+
     print(sum(get_risk(heightmap, point) for point in low_points))
 
 def puzzle2():
@@ -59,7 +62,9 @@ def puzzle2():
 
     rows = len(heightmap)
     cols = len(heightmap[0])
-    low_points = [(row, col) for row in range(rows) for col in range(cols) if hor[row][col] == ver[row][col] == 1]
+    low_points = [(row, col) for row in range(rows)
+                    for col in range(cols)
+                    if hor[row][col] == ver[row][col] == 1]
 
     sizes = []
     for idx_point, point in enumerate(low_points):
