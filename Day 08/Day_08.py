@@ -31,7 +31,7 @@ class Entry:
 
     def decode_segments(self):
         """ Get the equivalence between segments named abcdefg
-            and segments 0123456
+            and segments named 0123456 using de input signals
 
                0
             -------
@@ -77,7 +77,7 @@ class Entry:
         diff_segs_nums_069 = [diff_segs_nums_069_0, diff_segs_nums_069_1, diff_segs_nums_069_2]
         for aux in diff_segs_nums_069:
             if len(aux.intersection(seg_3)) > 0:
-                seg_4 = aux.difference(seg_3).difference(seg_2)
+                seg_4 = aux - seg_3 - seg_2
                 if len(seg_4) > 0:
                     break
 
