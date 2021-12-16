@@ -11,8 +11,10 @@ def get_data(path):
 
     return (template, rules)
 
+
 def break_polymer(template):
     return [template[i - 1] + template[i] for i in range(1, len(template))]
+
 
 def puzzle(iterations):
     template, rules = get_data("./Day 14/Day_14_input.txt")
@@ -59,9 +61,22 @@ def puzzle(iterations):
     key_max = max(char_appearances, key=char_appearances.get)
     key_min = min(char_appearances, key=char_appearances.get)
     print("After", iterations, "iterations")
-    print("The most common element is", key_max, "(occurring", char_appearances[key_max], "times)")
-    print("The least common element is", key_min, "(occurring", char_appearances[key_min], "times)")
-    print("Answer:", char_appearances[key_max] - char_appearances[key_min],end="\n\n")
+    print(
+        "The most common element is",
+        key_max,
+        "(occurring",
+        char_appearances[key_max],
+        "times)",
+    )
+    print(
+        "The least common element is",
+        key_min,
+        "(occurring",
+        char_appearances[key_min],
+        "times)",
+    )
+    print("Answer:", char_appearances[key_max] - char_appearances[key_min], end="\n\n")
+
 
 puzzle(10)
 puzzle(40)

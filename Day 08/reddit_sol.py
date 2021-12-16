@@ -13,7 +13,9 @@ def find_nums(nums):
 
 
 data = open("./Day 08/Day_08_input.txt").read().strip().split("\n")
-lines = [[["".join(sorted(z)) for z in y.split()] for y in x.split(" | ")] for x in data]
+lines = [
+    [["".join(sorted(z)) for z in y.split()] for y in x.split(" | ")] for x in data
+]
 p1 = p2 = 0
 for nums, digits in lines:
     nums = find_nums(nums)

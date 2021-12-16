@@ -7,6 +7,7 @@ def count_increments(measures):
 
     return count
 
+
 def get_simple_measures(path):
     measures = []
 
@@ -15,6 +16,7 @@ def get_simple_measures(path):
             measures.append(int(line))
 
     return measures
+
 
 def get_windowed_measures(path, window_size):
     measures = []
@@ -29,7 +31,8 @@ def get_windowed_measures(path, window_size):
                     measures[index] += value
 
     # delete last (window_size - 1) elements
-    return measures[0:len(measures) - (window_size - 1)]
+    return measures[0 : len(measures) - (window_size - 1)]
+
 
 # part 1
 print(count_increments(get_simple_measures("./Day 01/Day_01_input.txt")))

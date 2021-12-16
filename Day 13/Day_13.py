@@ -21,6 +21,7 @@ def read_data(path):
 
     return paper, folds
 
+
 def fold_paper(paper, axis, value):
     height = len(paper) if axis == "x" else value
     width = len(paper[0]) if axis == "y" else value
@@ -35,10 +36,12 @@ def fold_paper(paper, axis, value):
 
     return paper_fold
 
+
 def puzzle1():
     paper, folds = read_data("./Day 13/Day_13_input.txt")
     paper = fold_paper(paper, *folds[0])
     print(len([y for x in paper for y in x if y == "#"]))
+
 
 def puzzle2():
     paper, folds = read_data("./Day 13/Day_13_input.txt")
@@ -48,6 +51,7 @@ def puzzle2():
 
     for row in paper:
         print("".join(row))
+
 
 puzzle1()
 puzzle2()

@@ -1,5 +1,4 @@
 class Board:
-
     def __init__(self, size):
         self._numbers = [[None] * size for _ in range(size)]
 
@@ -17,10 +16,12 @@ class Board:
         return all(x is None for x in row) or all(x is None for x in column)
 
     def score(self):
-        return sum([value for row in self._numbers for value in row if value is not None])
+        return sum(
+            [value for row in self._numbers for value in row if value is not None]
+        )
+
 
 class BoardManager:
-
     def __init__(self):
         self._boards = []
         self._number_appearance = {}
@@ -53,6 +54,7 @@ class BoardManager:
                         self._boards[board_id] = None
         return winning_boards
 
+
 def read_data(draw_numbers, board_man):
     with open("./Day 04/Day_04_input.txt", "r") as file:
         lines = file.readlines()
@@ -71,6 +73,7 @@ def read_data(draw_numbers, board_man):
                 else:
                     values.append(list(map(int, line.split())))
 
+
 def puzzle1():
     draw_numbers = []
     board_man = BoardManager()
@@ -84,6 +87,7 @@ def puzzle1():
             print(final_score)
             break
 
+
 def puzzle2():
     draw_numbers = []
     board_man = BoardManager()
@@ -95,6 +99,7 @@ def puzzle2():
             # Bingo!!
             final_score = winning_boards[-1].score() * number
             print(final_score)
+
 
 puzzle1()
 puzzle2()

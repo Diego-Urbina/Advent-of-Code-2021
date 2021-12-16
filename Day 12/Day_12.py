@@ -1,5 +1,5 @@
 def get_caves_graph(path):
-    """ Return caves connections as a bidirected graph """
+    """Return caves connections as a bidirected graph"""
     caves_graph = {}
 
     with open(path) as file:
@@ -16,6 +16,7 @@ def get_caves_graph(path):
 
     return caves_graph
 
+
 def dfs(node, graph, valid_cave, path, all_paths):
     path.append(node)
     if node == "end":
@@ -25,9 +26,11 @@ def dfs(node, graph, valid_cave, path, all_paths):
             for neighbour in graph[node]:
                 dfs(neighbour, graph, valid_cave, path.copy(), all_paths)
 
+
 def cave_is_small(cave):
-    """ A cave is small if its name is in lowercase """
+    """A cave is small if its name is in lowercase"""
     return cave.islower()
+
 
 def puzzle1():
     def valid_cave_1(cave, visited):
@@ -45,8 +48,9 @@ def puzzle1():
     dfs("start", caves_graph, valid_cave_1, [], all_paths)
     print("There are", len(all_paths), "different paths:")
 
+
 def puzzle2():
-    def valid_cave_2 (cave, visited):
+    def valid_cave_2(cave, visited):
         """
         Big caves can be visited any number of times.
         A single small cave can be visited at most twice,
@@ -71,6 +75,7 @@ def puzzle2():
     all_paths = []
     dfs("start", caves_graph, valid_cave_2, [], all_paths)
     print("There are", len(all_paths), "different paths:")
+
 
 puzzle1()
 puzzle2()

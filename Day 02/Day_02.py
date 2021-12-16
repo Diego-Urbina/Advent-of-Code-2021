@@ -11,6 +11,7 @@ def get_final_coords_part1(commands):
 
     return (x, y)
 
+
 def get_final_coords_part2(commands):
     x = 0
     y = 0
@@ -25,6 +26,7 @@ def get_final_coords_part2(commands):
             aim -= units
 
     return (x, y)
+
 
 with open("./Day 02/Day_02_input.txt", "r") as file:
     commands = []

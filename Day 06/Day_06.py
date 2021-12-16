@@ -1,6 +1,7 @@
 with open("./Day 06/Day_06_input.txt", "r") as file:
     ages = list(map(int, file.readline().rstrip().split(",")))
 
+
 def puzzle(ages, days):
     fishes = [0] * 9
 
@@ -15,6 +16,7 @@ def puzzle(ages, days):
         fishes[8] = fishes_age_0
 
     print("After", days, "days, there are", sum(fishes), "fishes")
+
 
 puzzle(ages, 80)
 puzzle(ages, 256)

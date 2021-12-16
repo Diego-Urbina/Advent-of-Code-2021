@@ -13,17 +13,21 @@ with open("Day_05_input.txt", "r") as file:
         max_x = max(max_x, x1, x2)
         max_y = max(max_y, y1, y2)
 
+
 def is_horizontal(vent):
-    """ Same y-coord """
+    """Same y-coord"""
     return vent[0][1] == vent[1][1]
 
+
 def is_vertical(vent):
-    """ Same x-coord """
+    """Same x-coord"""
     return vent[0][0] == vent[1][0]
 
+
 def is_diagonal(vent):
-    """ Exactly 45 degrees """
+    """Exactly 45 degrees"""
     return abs(vent[0][0] - vent[1][0]) == abs(vent[0][1] - vent[1][1])
+
 
 ocean_map_1 = [[0 for _ in range(max_x + 1)] for _ in range(max_y + 1)]
 ocean_map_2 = [[0 for _ in range(max_x + 1)] for _ in range(max_y + 1)]
