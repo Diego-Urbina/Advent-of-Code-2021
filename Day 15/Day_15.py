@@ -29,40 +29,33 @@ def get_risk_matrix(path):
 
 
 def multiply_tile(tile, times):
-    if times == 1:
-        return tile
-
-    height_tile = len(tile)
-    width_tile = len(tile[0])
-    aux = [[0 for _ in range(width_tile * times)] for _ in range(height_tile * times)]
-    for y in range(len(aux)):
-        for x in range(len(aux[0])):
-            aux[y][x] = tile[y % height_tile][x % width_tile]
-            y_tile = y // height_tile
-            x_tile = x // width_tile
-            increments = y_tile + x_tile
-            aux[y][x] += increments
-            while aux[y][x] > 9:
-                aux[y][x] -= 9
+    w_tile = len(tile)
+    h_tile = len(tile[0])
+    aux = [[0 for _ in range(h_tile * times)] for _ in range(w_tile * times)]
+    for x in range(len(aux)):
+        for y in range(len(aux[0])):
+            aux[x][y] = tile[x % w_tile][y % h_tile] + (x // w_tile) + (y // h_tile)
+            while aux[x][y] > 9:
+                aux[x][y] -= 9
 
     return aux
 
 
-def get_cave_map(height, width):
-    return [[Node(x, y) for x in range(width)] for y in range(height)]
+def get_cave_map(width, height):
+    return [[Node(x, y) for y in range(height)] for x in range(width)]
 
 
 def get_neighbours(node, cave_map):
     """horizontal and vertical neighbors"""
     neighbours = []
-    if node.y - 1 >= 0:
-        neighbours.append(cave_map[node.y - 1][node.x])
-    if node.y + 1 < len(cave_map):
-        neighbours.append(cave_map[node.y + 1][node.x])
     if node.x - 1 >= 0:
-        neighbours.append(cave_map[node.y][node.x - 1])
-    if node.x + 1 < len(cave_map[0]):
-        neighbours.append(cave_map[node.y][node.x + 1])
+        neighbours.append(cave_map[node.x - 1][node.y])
+    if node.x + 1 < len(cave_map):
+        neighbours.append(cave_map[node.x + 1][node.y])
+    if node.y - 1 >= 0:
+        neighbours.append(cave_map[node.x][node.y - 1])
+    if node.y + 1 < len(cave_map[0]):
+        neighbours.append(cave_map[node.x][node.y + 1])
     return neighbours
 
 
