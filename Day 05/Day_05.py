@@ -1,4 +1,4 @@
-with open("Day_05_input.txt", "r") as file:
+with open("./Day 05/Day_05_input.txt", "r") as file:
     vents = []
     max_x = 0
     max_y = 0
@@ -29,8 +29,8 @@ def is_diagonal(vent):
     return abs(vent[0][0] - vent[1][0]) == abs(vent[0][1] - vent[1][1])
 
 
-ocean_map_1 = [[0 for _ in range(max_x + 1)] for _ in range(max_y + 1)]
-ocean_map_2 = [[0 for _ in range(max_x + 1)] for _ in range(max_y + 1)]
+ocean_map_1 = [[0 for _ in range(max_y + 1)] for _ in range(max_x + 1)]
+ocean_map_2 = [[0 for _ in range(max_y + 1)] for _ in range(max_x + 1)]
 
 for vent in vents:
     x1 = vent[0][0]
@@ -41,20 +41,20 @@ for vent in vents:
     if is_horizontal(vent):
         for offset in range(abs(x2 - x1) + 1):
             x = x1 + offset if x1 < x2 else x1 - offset
-            ocean_map_1[y1][x] += 1
-            ocean_map_2[y1][x] += 1
+            ocean_map_1[x][y1] += 1
+            ocean_map_2[x][y1] += 1
 
     if is_vertical(vent):
         for offset in range(abs(y2 - y1) + 1):
             y = y1 + offset if y1 < y2 else y1 - offset
-            ocean_map_1[y][x1] += 1
-            ocean_map_2[y][x1] += 1
+            ocean_map_1[x1][y] += 1
+            ocean_map_2[x1][y] += 1
 
     if is_diagonal(vent):
         for offset in range(abs(x2 - x1) + 1):
             x = x1 + offset if x1 < x2 else x1 - offset
             y = y1 + offset if y1 < y2 else y1 - offset
-            ocean_map_2[y][x] += 1
+            ocean_map_2[x][y] += 1
 
 print(sum(1 for i in ocean_map_1 for j in i if j >= 2))
 print(sum(1 for i in ocean_map_2 for j in i if j >= 2))
