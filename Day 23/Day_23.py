@@ -16,6 +16,15 @@ class State:
     ]
 
     def __init__(self, board, g=0, parent=None):
+        if len(board) == 5:
+            State.SOLUTION = [
+                [".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "."],
+                ["#", "#", "A", "#", "B", "#", "C", "#", "D", "#", "#"],
+                ["#", "#", "A", "#", "B", "#", "C", "#", "D", "#", "#"],
+                ["#", "#", "A", "#", "B", "#", "C", "#", "D", "#", "#"],
+                ["#", "#", "A", "#", "B", "#", "C", "#", "D", "#", "#"],
+            ]
+
         self.board = board
         self.g = g
         self.parent = parent
@@ -57,7 +66,7 @@ class State:
 
     def calc_h_cost(self):
         cost = 0
-        for row in range(3):
+        for row in range(len(self.board)):
             for col in range(11):
                 cell = self.board[row][col]
                 if cell in State.AMPHIPODS:
@@ -72,7 +81,7 @@ class State:
         return self.g_cost() + self.h_cost()
 
     def is_solution(self):
-        for row in range(3):
+        for row in range(len(self.board)):
             for col in range(11):
                 if self.board[row][col] != State.SOLUTION[row][col]:
                     return False
@@ -88,12 +97,8 @@ class State:
             row, col = amphipod[1]
             if col == State.END_ROOMS[pod]:
                 # in my room
-                if row == 2:
-                    continue
-                elif row == 1:
-                    if self.board[2][col] != pod:
-                        # it has to leave
-                        moves.extend(self.exit_room(pod, (row, col)))
+                if self.should_leave_room(pod, (row, col)):
+                    moves.extend(self.exit_room(pod, (row, col)))
             elif row == 0:
                 # in hallway
                 move_to_my_room = self.to_my_room(pod, (row, col))
@@ -122,6 +127,27 @@ class State:
 
         return neighbours
 
+    def should_leave_room(self, amphipod, pos):
+        row, col = pos
+        if len(self.board) == 3:
+            if row == 2:
+                return False
+            elif row == 1:
+                return self.board[2][col] != amphipod
+        elif len(self.board) == 5:
+            if row == 4:
+                return False
+            elif row == 3:
+                return self.board[4][col] != amphipod
+            elif row == 2:
+                return self.board[4][col] != amphipod or self.board[3][col] != amphipod
+            elif row == 1:
+                return (
+                    self.board[4][col] != amphipod
+                    or self.board[3][col] != amphipod
+                    or self.board[2][col] != amphipod
+                )
+
     def to_my_room(self, amphipod, pos):
         col = pos[1]
         col_target = State.END_ROOMS[amphipod]
@@ -134,13 +160,35 @@ class State:
             if self.board[0][c] != ".":
                 break
         else:
-            if self.board[2][col_target] == ".":
-                return (2, col_target)
-            elif (
-                self.board[2][col_target] == amphipod
-                and self.board[1][col_target] == "."
-            ):
-                return (1, col_target)
+            if len(self.board) == 3:
+                if self.board[2][col_target] == ".":
+                    return (2, col_target)
+                elif (
+                    self.board[2][col_target] == amphipod
+                    and self.board[1][col_target] == "."
+                ):
+                    return (1, col_target)
+            elif len(self.board) == 5:
+                if self.board[4][col_target] == ".":
+                    return (4, col_target)
+                elif (
+                    self.board[4][col_target] == amphipod
+                    and self.board[3][col_target] == "."
+                ):
+                    return (3, col_target)
+                elif (
+                    self.board[4][col_target] == amphipod
+                    and self.board[3][col_target] == amphipod
+                    and self.board[2][col_target] == "."
+                ):
+                    return (2, col_target)
+                elif (
+                    self.board[4][col_target] == amphipod
+                    and self.board[3][col_target] == amphipod
+                    and self.board[2][col_target] == amphipod
+                    and self.board[1][col_target] == "."
+                ):
+                    return (1, col_target)
 
         return None
 
@@ -164,7 +212,7 @@ class State:
 
     def find_amphipods(self):
         amphipods = []
-        for row in range(3):
+        for row in range(len(self.board)):
             for col in range(11):
                 cell = self.board[row][col]
                 if cell in State.AMPHIPODS:
@@ -198,8 +246,20 @@ def puzzle1():
         ["#", "#", "C", "#", "A", "#", "B", "#", "B", "#", "#"],
     ]
 
-    state1 = State(initial)
-    a_star(state1)
+    a_star(State(initial))
+
+
+def puzzle2():
+    initial = [
+        [".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "."],
+        ["#", "#", "D", "#", "A", "#", "D", "#", "C", "#", "#"],
+        ["#", "#", "D", "#", "C", "#", "B", "#", "A", "#", "#"],
+        ["#", "#", "D", "#", "B", "#", "A", "#", "C", "#", "#"],
+        ["#", "#", "C", "#", "A", "#", "B", "#", "B", "#", "#"],
+    ]
+
+    a_star(State(initial))
 
 
 print(timeit.timeit(puzzle1, number=1))
+print(timeit.timeit(puzzle2, number=1))
