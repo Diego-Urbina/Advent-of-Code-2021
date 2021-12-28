@@ -79,29 +79,6 @@ class State:
 
         return True
 
-    def is_impossible(self):
-        cross = {}
-        for col, cell in enumerate(self.board[0]):
-            if cell != ".":
-                cross[cell] = set()
-                col_target = State.END_ROOMS[cell]
-                r = (
-                    range(col + 1, col_target + 1)
-                    if col < col_target
-                    else range(col - 1, col_target - 1, -1)
-                )
-                for c in r:
-                    if self.board[0][c] != ".":
-                        cross[cell].add(self.board[0][c])
-
-        for pod in cross.keys():
-            for c in cross[pod]:
-                if pod in cross[c]:
-                    return True
-            pass
-
-        return False
-
     def get_neighbours(self):
         neighbours = []
 
@@ -141,8 +118,7 @@ class State:
                 new_board[new_row][new_col] = pod
                 g = State.COSTS[pod] * (row + abs(col - new_col) + new_row) + self.g
                 new_state = State(new_board, g, self)
-                if not new_state.is_impossible():
-                    neighbours.append(new_state)
+                neighbours.append(new_state)
 
         return neighbours
 
@@ -198,15 +174,11 @@ class State:
 
 
 def a_star(initial_state):
-    start_node = initial_state
-
     open_nodes = [initial_state]
-    closed_nodes = set()
-    heapq.heapify(open_nodes)
+    visited_nodes = {initial_state: 0}
 
     while True:
         current = heapq.heappop(open_nodes)
-        closed_nodes.add(current)
 
         if current.is_solution():
             print("Cost =", current.f_cost())
@@ -214,16 +186,8 @@ def a_star(initial_state):
             break
 
         for neighbour in current.get_neighbours():
-            if neighbour in closed_nodes:
-                continue
-
-            if neighbour in open_nodes:
-                aux = open_nodes[open_nodes.index(neighbour)]
-                if aux.g > neighbour.g:
-                    aux.g = neighbour.g
-                    aux.parent = current
-                    heapq.heapify(open_nodes)
-            else:
+            if neighbour not in visited_nodes or visited_nodes[neighbour] > neighbour.g:
+                visited_nodes[neighbour] = neighbour.g
                 heapq.heappush(open_nodes, neighbour)
 
 

@@ -1,3 +1,4 @@
+import heapq
 import timeit
 
 
@@ -8,19 +9,29 @@ class Node:
         self.x = x
         self.y = y
         self.g = 0
+        self.h = 0
         self.parent = None
+
+    def __hash__(self):
+        return hash((self.x, self.y))
+
+    def __eq__(self, other):
+        return hash(self) == hash(other)
+
+    def __lt__(self, other):
+        return self.f_cost() < other.f_cost()
 
     def g_cost(self):
         """Return actual cost"""
         return self.g
 
-    def h_cost(self, target):
+    def calc_h_cost(self, target):
         """Return the remaining path cost (heuristic)"""
-        return abs(self.x - target.x) + abs(self.y - target.y)
+        self.h = abs(self.x - target.x) + abs(self.y - target.y)
 
-    def f_cost(self, target):
+    def f_cost(self):
         """Return total cost"""
-        return self.g_cost() + self.h_cost(target)
+        return self.g + self.h
 
 
 def get_risk_matrix(path):
@@ -63,28 +74,28 @@ def a_star(cave_map, risk):
     start_node = cave_map[0][0]
     end_node = cave_map[-1][-1]
 
-    open_nodes = [start_node]  # maybe use a min heap is faster
-    closed_nodes = set()
+    # set heuristic cost for all nodes
+    for row in cave_map:
+        for node in row:
+            node.calc_h_cost(end_node)
+
+    open_nodes = [start_node]
+    visited_nodes = {start_node: 0}
 
     while True:
-        current = min(open_nodes, key=lambda node: Node.f_cost(node, end_node))
-        open_nodes.remove(current)
-        closed_nodes.add(current)
+        current = heapq.heappop(open_nodes)
 
         if current == end_node:
-            print("Cost =", current.f_cost(end_node))
+            print("Cost =", current.f_cost())
             break
 
         for neighbour in get_neighbours(current, cave_map):
-            if neighbour in closed_nodes:
-                continue
-
-            g_through_current = current.g + risk[neighbour.y][neighbour.x]
-            if neighbour.g > g_through_current or neighbour not in open_nodes:
-                neighbour.g = g_through_current
+            new_g = current.g + risk[neighbour.y][neighbour.x]
+            if neighbour not in visited_nodes or visited_nodes[neighbour] > new_g:
+                visited_nodes[neighbour] = new_g
+                neighbour.g = new_g
                 neighbour.parent = current
-                if neighbour not in open_nodes:
-                    open_nodes.append(neighbour)
+                heapq.heappush(open_nodes, neighbour)
 
 
 def puzzle1():
